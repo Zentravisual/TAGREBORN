@@ -109,7 +109,7 @@
             let img = new Image();
             img.onload = function() { gambarBesar.src = this.src; };
             img.onerror = function() { 
-                if(!src.endsWith(fallbackExt)) {
+                if(!src.endsWith(fallbackExt) {
                     gambarBesar.src = src.replace('.jpg', fallbackExt);
                 }
             };
