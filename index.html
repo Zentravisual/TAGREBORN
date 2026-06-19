@@ -93,10 +93,10 @@
         // Array nama file yang disesuaikan dengan folder terbaru Anda
         const produk = [
             // Index 0: Galeri Menu (menu, drink1, drink2)
-            ["images/menu.jpg", "images/drink1.jpg", "images/drink2.jpg"],
+            ["menu.jpg", "drink1.jpg", "drink2.jpg"],
             
             // Index 1: Galeri Ruangan (image1, image2, image3)
-            ["images/image1.jpg", "images/image2.jpg", "images/image3.jpg"]
+            ["image1.jpg", "image2.jpg", "image3.jpg"]
         ];
 
         let currentProduk = 0;
@@ -105,23 +105,23 @@
         const gambarBesar = document.getElementById("gambarBesar");
 
         // Fungsi Load Image dengan Fallback otomatis ke .jpeg jika error
-        function loadImage(src, fallbackExt) {
-            let img = new Image();
-            img.onload = function() { gambarBesar.src = this.src; };
-            img.onerror = function() { 
-                if(!src.endsWith(fallbackExt) {
-                    gambarBesar.src = src.replace('.jpg', fallbackExt);
+        function loadImage(src) {
+            gambarBesar.src = src;
+            gambarBesar.onerror = function() {
+                let fallback = src.replace(/\.(jpg|jpeg|png)$/i, function(ext) {
+                    return ext.toLowerCase() === '.jpg' ? '.jpeg' : '.jpg';
+                });
+                if (fallback !== src) {
+                    gambarBesar.src = fallback;
+                    gambarBesar.onerror = null;
                 }
             };
-            img.src = src;
         }
 
         function detail(index){
-            alert("Tombol berfungsi!");
-        }
             currentProduk = index;
             currentImage = 0;
-            loadImage(produk[currentProduk][currentImage], '.jpeg');
+            loadImage(produk[currentProduk][currentImage]);
             modal.style.display = "flex";
         }
 
@@ -130,7 +130,7 @@
             if(currentImage >= produk[currentProduk].length){
                 currentImage = 0;
             }
-            loadImage(produk[currentProduk][currentImage], '.jpeg');
+            loadImage(produk[currentProduk][currentImage]);
         }
 
         function prevImage(){
@@ -138,7 +138,7 @@
             if(currentImage < 0){
                 currentImage = produk[currentProduk].length - 1;
             }
-            loadImage(produk[currentProduk][currentImage], '.jpeg');
+            loadImage(produk[currentProduk][currentImage]);
         }
 
         function tutup(){
